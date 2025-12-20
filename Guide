@@ -1,0 +1,50 @@
+AnkerGames Source for Hydra Launcher
+
+This repository hosts an automated scraper that generates a valid source file for Hydra Launcher.
+
+How to use this source
+
+Click on the file ankergames.json in the file list above.
+
+Click the "Raw" button in the top right of the file view.
+
+Copy the URL from your browser's address bar. It should look like:
+https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO_NAME/main/ankergames.json
+
+Open Hydra Launcher.
+
+Go to Settings -> Download Sources.
+
+Click Import -> Import from URL.
+
+Paste the raw URL and click Add.
+
+How to set this up (For Developers)
+
+If you want to host this yourself:
+
+Create a new Repository on GitHub.
+
+Add the files provided in this guide:
+
+ankergames_scraper.py (The logic)
+
+requirements.txt (The dependencies)
+
+.github/workflows/scraper.yml (The automation)
+
+Push these files to your repository.
+
+Go to the Actions tab in your repository.
+
+You should see "Update AnkerGames Source" listed. You can wait for the daily run, or click "Run workflow" to generate the JSON immediately.
+
+Once the action finishes (green checkmark), a new file named ankergames.json will appear in your code tab.
+
+Features
+
+Daily Updates: Runs automatically at 00:00 UTC.
+
+Title Cleaning: Removes version numbers and extra tags for better matching.
+
+Smart Validation: Only adds games that have valid "Direct" download links.

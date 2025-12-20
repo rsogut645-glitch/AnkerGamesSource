@@ -41,6 +41,8 @@ You should see "Update AnkerGames Source" listed. You can wait for the daily run
 
 Once the action finishes (green checkmark), a new file named ankergames.json will appear in your code tab.
 
+Click into ankergames.json file and then click raw to get the correct link.
+
 Features
 
 Daily Updates: Runs automatically at 00:00 UTC.

@@ -200,6 +200,13 @@ class AnkerScraper:
                 # Strict filtering to avoid garbage links
                 new_links = {l for l in links if "/game/" in l or "/download/" in l}
                 
+                # --- FALLBACK ---
+                # If specific selectors failed, grab ALL links and filter by URL pattern
+                if not new_links:
+                     links = await page.evaluate("() => Array.from(document.querySelectorAll('a')).map(a => a.href)")
+                     new_links = {l for l in links if ("/game/" in l or "/download/" in l) and len(l) > len(BASE_URL)}
+                # ----------------
+                
                 # Deduplicate against what we already have
                 current_batch_count = len(new_links - game_links)
                 game_links.update(new_links)
@@ -221,8 +228,7 @@ class AnkerScraper:
                     button:has-text('Load More'),
                     span:has-text('Load More'),
                     .load-more,
-                    [class*='load-more'],
-                    text=/Load\s*More/i
+                    [class*='load-more']
                 """)
                 
                 if not load_more_btn or not await load_more_btn.is_visible():

@@ -8,9 +8,12 @@ on:
 
 jobs:
   scrape-and-update:
-    runs-on: ubuntu-latest
+    # FIX: Pins the OS to Ubuntu 22.04.
+    # This matches the dependencies required by Playwright and fixes the installation error.
+    runs-on: ubuntu-22.04
+    
     permissions:
-      contents: write # Important: allows the action to push changes
+      contents: write # Required to push the JSON file back to the repo
 
     steps:
       - name: Checkout repository
@@ -20,6 +23,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+          cache: 'pip' # Speeds up future runs
 
       - name: Install dependencies
         run: |
@@ -29,6 +33,7 @@ jobs:
       - name: Install Playwright Browsers
         run: |
           playwright install chromium
+          # This command installs the specific OS-level libraries needed (fixes the missing libffi errors)
           playwright install-deps
 
       - name: Run Scraper
@@ -39,5 +44,5 @@ jobs:
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           git add ankergames.json
-          # Only commit if there are changes
+          # Only commit if the file actually changed to avoid errors
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update AnkerGames source" && git push)
